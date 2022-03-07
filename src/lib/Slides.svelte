@@ -84,7 +84,7 @@
 
   .narrator {
     height: 100%;
-    width: 20%;
+    width: 25%;
   }
 
   .tools {
