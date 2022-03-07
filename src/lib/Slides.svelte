@@ -24,8 +24,16 @@
     </div>
 
     <div class="narrators">
-      <img class="narrator" src="https://placehold.jp/200x300.png" alt="" />
-      <img class="narrator" src="https://placehold.jp/200x300.png" alt="" />
+      <img
+        class="narrator"
+        src="https://science4fun.info/wp-content/uploads/2021/05/Socrates.jpg"
+        alt=""
+      />
+      <img
+        class="narrator"
+        src="https://w7.pngwing.com/pngs/233/96/png-transparent-man-face-statue-plato-ancient-greece-phaedo-republic-allegory-of-the-cave-grece-stone-carving-head-ancient-history-thumbnail.png"
+        alt=""
+      />
     </div>
 
     <div class="tools">
@@ -69,15 +77,20 @@
     bottom: 0;
     display: flex;
     justify-content: space-between;
+    align-items: end;
     width: 100%;
     z-index: 1;
   }
 
   .narrator {
-    width: 25%;
+    height: 100%;
+    width: 20%;
   }
 
   .tools {
+    position: absolute;
+    bottom: 0;
+    right: 0;
     z-index: 1000;
   }
 </style>
