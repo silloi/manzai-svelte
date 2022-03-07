@@ -1,10 +1,12 @@
 <script lang="ts">
+  import Slides from "./lib/Slides.svelte";
   import Textarea from "./lib/Textarea.svelte";
+
   let text = "string";
 </script>
 
 <div class="wrapper">
-  <main>{text}</main>
+  <Slides bind:text />
 
   <Textarea bind:text />
 </div>
@@ -13,10 +15,6 @@
   :root {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  }
-
-  main {
-    width: 100%;
   }
 
   @media (min-width: 768px) {
