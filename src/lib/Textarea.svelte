@@ -11,4 +11,11 @@
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
   }
+
+  @media (min-width: 768px) {
+    textarea {
+      height: 100vh;
+      box-sizing: border-box;
+    }
+  }
 </style>

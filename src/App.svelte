@@ -5,10 +5,14 @@
   let text = "string";
 </script>
 
-<div class="wrapper">
-  <Slides bind:text />
+<div class="flex">
+  <div class="flex-item">
+    <Slides bind:text />
+  </div>
 
-  <Textarea bind:text />
+  <div class="flex-item">
+    <Textarea bind:text />
+  </div>
 </div>
 
 <style>
@@ -17,11 +21,24 @@
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   }
 
+  :global(p) {
+    margin: 0;
+  }
+
+  .flex {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
   @media (min-width: 768px) {
-    .wrapper {
-      display: flex;
+    .flex {
       flex-direction: row-reverse;
       justify-content: flex-end;
+    }
+
+    .flex-item {
+      flex: 1;
     }
   }
 </style>
