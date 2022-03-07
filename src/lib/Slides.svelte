@@ -3,9 +3,11 @@
 
   export let text = "";
 
-  let position = 0;
+  const parseText = (text: string) => text.split("");
 
-  let list = ["0", "1", "2"];
+  $: list = parseText(text);
+
+  let position = 0;
 
   const slidePrev = () => position--;
   const slideNext = () => position++;
