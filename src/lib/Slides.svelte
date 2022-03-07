@@ -1,9 +1,11 @@
 <script lang="ts">
+  import Slide from "./Slide.svelte";
+
   export let text = "";
 
   let position = 0;
 
-  let list = [0, 1, 2];
+  let list = ["0", "1", "2"];
 
   const slidePrev = () => position--;
   const slideNext = () => position++;
@@ -12,7 +14,7 @@
 <main>
   {#each list as item, index}
     {#if index === position}
-      <div>{text} {item}</div>
+      <Slide message={text + item} />
     {/if}
   {/each}
 
