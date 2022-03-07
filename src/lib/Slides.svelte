@@ -1,8 +1,29 @@
 <script lang="ts">
   export let text = "";
+
+  let position = 0;
+
+  let list = [0, 1, 2];
+
+  const slidePrev = () => position--;
+  const slideNext = () => position++;
 </script>
 
-<main>{text}</main>
+<main>
+  {#each list as item, index}
+    {#if index === position}
+      <div>{text} {item}</div>
+    {/if}
+  {/each}
+
+  {#if position !== 0}
+    <button on:click={slidePrev}>prev</button>
+  {/if}
+
+  {#if position !== list.length - 1}
+    <button on:click={slideNext}>next</button>
+  {/if}
+</main>
 
 <style>
   main {
