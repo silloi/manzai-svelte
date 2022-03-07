@@ -1,12 +1,12 @@
 <script lang="ts">
-  import Slides from "./lib/Slides.svelte";
+  import Textarea from "./lib/Textarea.svelte";
   let text = "string";
 </script>
 
 <div class="wrapper">
   <main>{text}</main>
 
-  <Slides bind:text />
+  <Textarea bind:text />
 </div>
 
 <style>
