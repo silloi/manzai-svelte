@@ -1,11 +1,12 @@
 <script lang="ts">
-  let value = "string";
+  import Slides from "./lib/Slides.svelte";
+  let text = "string";
 </script>
 
 <div class="wrapper">
-  <main>{value}</main>
+  <main>{text}</main>
 
-  <textarea bind:value />
+  <Slides bind:text />
 </div>
 
 <style>
@@ -14,15 +15,8 @@
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   }
 
-  textarea,
   main {
     width: 100%;
-  }
-
-  textarea {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
   }
 
   @media (min-width: 768px) {
