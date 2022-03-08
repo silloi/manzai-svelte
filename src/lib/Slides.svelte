@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { parseText } from "./parser";
+  import { MESSAGE_TYPE, parseText } from "./parser";
 
   import Slide from "./Slide.svelte";
 
@@ -11,9 +11,17 @@
   $: contents = parsedText.contents;
 
   let position = 0;
+  let background = "";
 
-  const slidePrev = () => position--;
-  const slideNext = () => position++;
+  const slideToTop = () => (position = 0);
+  const slideNext = () => {
+    if (contents[position + 1].type === MESSAGE_TYPE.MEDIA) {
+      background = contents[position + 1].media;
+      position++;
+    }
+
+    position++;
+  };
 </script>
 
 <div class="wrapper">
@@ -27,27 +35,23 @@
     </div>
 
     <div class="narrators">
-      <img
-        class="narrator"
-        src="https://science4fun.info/wp-content/uploads/2021/05/Socrates.jpg"
-        alt=""
-      />
-      <img
-        class="narrator"
-        src="https://w7.pngwing.com/pngs/233/96/png-transparent-man-face-statue-plato-ancient-greece-phaedo-republic-allegory-of-the-cave-grece-stone-carving-head-ancient-history-thumbnail.png"
-        alt=""
-      />
+      {#if header.images.length > 0 && header.images[0]}
+        <img class="narrator" src={header.images[0]} alt="" />
+      {/if}
+      {#if header.images.length > 1 && header.images[1]}
+        <img class="narrator" src={header.images[1]} alt="" />
+      {/if}
     </div>
 
     <div class="tools">
-      {#if position !== 0}
-        <button on:click={slidePrev}>prev</button>
-      {/if}
+      <button on:click={slideToTop}>top</button>
 
       {#if position !== contents.length - 1}
         <button on:click={slideNext}>next</button>
       {/if}
     </div>
+
+    <div class="background" style="background-image: url({background})" />
   </main>
 </div>
 
@@ -95,5 +99,12 @@
     bottom: 0;
     right: 0;
     z-index: 1000;
+  }
+
+  .background {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100%;
   }
 </style>

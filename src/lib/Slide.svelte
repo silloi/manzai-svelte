@@ -21,18 +21,19 @@
   p {
     font-size: 4vw;
     padding: 2vw 25vw;
-    text-shadow: 0.5vw 0.5vw 0 white, -0.5vw -0.5vw 0 white,
-      -0.5vw 0.5vw 0 white, 0.5vw -0.5vw 0 white, 0px 0.5vw 0 white,
-      0-0.5vw 0 white, -0.5vw 0 0 white, 0.5vw 0 0 white;
+    text-shadow: 0.5vw 0.5vw 0.5vw white, -0.5vw -0.5vw 0.5vw white,
+      -0.5vw 0.5vw 0.5vw white, 0.5vw -0.5vw 0.5vw white, 0.5vw 0 0.5vw white,
+      -0.5vw 0 0.5vw white, 0 0.5vw 0.5vw white, 0 -0.5vw 0.5vw white;
   }
 
   @media (min-width: 768px) {
     p {
       font-size: 2vw;
       padding: 1vw 12.5vw;
-      text-shadow: 0.25vw 0.25vw 0 white, -0.25vw -0.25vw 0 white,
-        -0.25vw 0.25vw 0 white, 0.25vw -0.25vw 0 white, 0px 0.25vw 0 white,
-        0-0.25vw 0 white, -0.25vw 0 0 white, 0.25vw 0 0 white;
+      text-shadow: 0.25vw 0.25vw 0.25vw white, -0.25vw -0.25vw 0.25vw white,
+        -0.25vw 0.25vw 0.25vw white, 0.25vw -0.25vw 0.25vw white,
+        0.25vw 0 0.25vw white, -0.25vw 0 0.25vw white, 0 0.25vw 0.25vw white,
+        0 -0.25vw 0.25vw white;
     }
   }
 </style>

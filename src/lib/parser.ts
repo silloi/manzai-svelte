@@ -4,12 +4,14 @@ export const MESSAGE_TYPE = {
   SUBJECTIVE: 'subjective',
   OBJECTIVE: 'objective',
   DESCRIPTIVE: 'descriptive',
+  MEDIA: 'media',
 } as const;
 
 export interface IMessage {
   type: typeof MESSAGE_TYPE[keyof typeof MESSAGE_TYPE];
   narrator: string;
   message: string;
+  media: string;
 }
 
 export interface IParsedText {
@@ -49,11 +51,23 @@ export const parseBody = (text: string): IMessage[] => {
   const rawLines = text.split("\n\n");
 
   const parsedLines = rawLines.map((line) => {
+    if (line.startsWith('[') && line.endsWith(']')) {
+      const src = line.slice(1, line.length - 1);
+
+      return {
+        type: MESSAGE_TYPE.MEDIA,
+        narrator: '',
+        message: '',
+        media: src,
+      }
+    }
+
     if (!line.includes(':')) {
       return {
         type: MESSAGE_TYPE.DESCRIPTIVE,
         narrator: '',
         message: line,
+        media: '',
       };
     }
 
@@ -66,6 +80,7 @@ export const parseBody = (text: string): IMessage[] => {
         type: MESSAGE_TYPE.OBJECTIVE,
         narrator: narrator,
         message: message,
+        media: '',
       };
     }
 
@@ -76,6 +91,7 @@ export const parseBody = (text: string): IMessage[] => {
         type: MESSAGE_TYPE.SUBJECTIVE,
         narrator: narrator,
         message: message,
+        media: '',
       };
     }
 
@@ -83,6 +99,7 @@ export const parseBody = (text: string): IMessage[] => {
       type: MESSAGE_TYPE.SUBJECTIVE,
       narrator: narratorPair,
       message: message,
+      media: '',
     };
   })
 
