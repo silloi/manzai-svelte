@@ -1,11 +1,14 @@
 <script lang="ts">
+  import { parseText } from "./parser";
+
   import Slide from "./Slide.svelte";
 
   export let text = "";
 
-  const parseText = (text: string) => text.split("");
+  $: parsedText = parseText(text);
 
-  $: list = parseText(text);
+  $: header = parsedText.header;
+  $: contents = parsedText.contents;
 
   let position = 0;
 
@@ -16,9 +19,9 @@
 <div class="wrapper">
   <main>
     <div class="messages">
-      {#each list as item, index}
+      {#each contents as item, index}
         {#if index === position}
-          <Slide message={text + item} />
+          <Slide {...item} />
         {/if}
       {/each}
     </div>
@@ -41,7 +44,7 @@
         <button on:click={slidePrev}>prev</button>
       {/if}
 
-      {#if position !== list.length - 1}
+      {#if position !== contents.length - 1}
         <button on:click={slideNext}>next</button>
       {/if}
     </div>

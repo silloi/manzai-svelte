@@ -1,8 +1,14 @@
 <script lang="ts">
+  import { MESSAGE_TYPE } from "./parser";
+
+  export let type: typeof MESSAGE_TYPE[keyof typeof MESSAGE_TYPE] =
+    MESSAGE_TYPE.DESCRIPTIVE;
+  export let narrator = "";
   export let message = "";
 </script>
 
 <article>
+  <span>{narrator}</span>
   <p>{message}</p>
 </article>
 
@@ -10,9 +16,6 @@
   article {
     width: 100%;
     overflow-wrap: anywhere;
-    /* border: solid 0.25vw;
-    border-radius: 0.25vw; */
-    /* background-color: white; */
   }
 
   p {
