@@ -1,4 +1,5 @@
 <script lang="ts">
+  import ResetCss from "./lib/ResetCss.svelte";
   import Slides from "./lib/Slides.svelte";
   import Textarea from "./lib/Textarea.svelte";
 
@@ -24,6 +25,8 @@ images:
 `;
 </script>
 
+<ResetCss />
+
 <div class="flex">
   <div class="flex-item">
     <Slides bind:text />
@@ -35,15 +38,6 @@ images:
 </div>
 
 <style>
-  :root {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  }
-
-  :global(p) {
-    margin: 0;
-  }
-
   .flex {
     display: flex;
     flex-direction: column;

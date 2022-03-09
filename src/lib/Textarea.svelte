@@ -7,9 +7,6 @@
 <style>
   textarea {
     width: 100%;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
   }
 
   @media (min-width: 768px) {
