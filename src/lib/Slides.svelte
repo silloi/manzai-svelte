@@ -2,6 +2,7 @@
   import { MESSAGE_TYPE, parseText } from "./parser";
 
   import Slide from "./Slide.svelte";
+  import Keydown from "./Keydown.svelte";
 
   export let text = "";
 
@@ -23,6 +24,8 @@
     position++;
   };
 </script>
+
+<Keydown {position} {contents} {slideNext} />
 
 <div class="wrapper">
   <main>
