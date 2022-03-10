@@ -1,8 +1,10 @@
 <script lang="ts">
   export let text = "";
+  export let onFocus = () => {};
+  export let onBlur = () => {};
 </script>
 
-<textarea bind:value={text} />
+<textarea bind:value={text} on:focus={onFocus} on:blur={onBlur} />
 
 <style>
   textarea {

@@ -5,6 +5,7 @@
   import Keydown from "./Keydown.svelte";
 
   export let text = "";
+  export let isFocused = false;
 
   $: parsedText = parseText(text);
 
@@ -25,7 +26,9 @@
   };
 </script>
 
-<Keydown {position} {contents} {slideNext} />
+{#if !isFocused}
+  <Keydown {position} {contents} {slideNext} />
+{/if}
 
 <div class="wrapper">
   <main>

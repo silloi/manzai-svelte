@@ -3,6 +3,10 @@
   import Slides from "./lib/Slides.svelte";
   import Textarea from "./lib/Textarea.svelte";
 
+  let isFocused = false;
+  const onFocus = () => (isFocused = true);
+  const onBlur = () => (isFocused = false);
+
   let text = `---
 images:
   - https://3.bp.blogspot.com/-lEHqMVOWaoM/WD_cVZQHSAI/AAAAAAABADg/fyZKYa-B-0QS7V0KvuyZcu429SmcU5fygCLcB/s400/nigaoe_socrates.png
@@ -29,11 +33,11 @@ images:
 
 <div class="flex">
   <div class="flex-item">
-    <Slides bind:text />
+    <Slides bind:text {isFocused} />
   </div>
 
   <div class="flex-item">
-    <Textarea bind:text />
+    <Textarea bind:text {onFocus} {onBlur} />
   </div>
 </div>
 
