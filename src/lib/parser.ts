@@ -9,8 +9,8 @@ export enum MESSAGE_TYPE {
 export type Message = {
   type: MESSAGE_TYPE;
   name: string;
-  message: string;
-  media: string;
+  message?: string;
+  media?: string;
 }
 
 export type ParsedText = {
@@ -49,23 +49,11 @@ export const parseBody = (text: string): Message[] => {
   const rawLines = text.split("\n\n");
 
   const parsedLines = rawLines.map((line) => {
-    if (line.startsWith('[') && line.endsWith(']')) {
-      const src = line.slice(1, line.length - 1);
-
+    if (!line.includes(': ')) {
       return {
         type: MESSAGE_TYPE.DESCRIPTIVE,
         name: '',
-        message: '',
-        media: src,
-      }
-    }
-
-    if (!line.includes(':')) {
-      return {
-        type: MESSAGE_TYPE.DESCRIPTIVE,
-        name: '',
-        message: line,
-        media: '',
+        ...parseMessage(line),
       };
     }
 
@@ -77,8 +65,7 @@ export const parseBody = (text: string): Message[] => {
       return {
         type: MESSAGE_TYPE.OBJECTIVE,
         name: name,
-        message: message,
-        media: '',
+        ...parseMessage(message),
       };
     }
 
@@ -88,18 +75,26 @@ export const parseBody = (text: string): Message[] => {
       return {
         type: MESSAGE_TYPE.SUBJECTIVE,
         name: name,
-        message: message,
-        media: '',
+        ...parseMessage(message),
       };
     }
 
     return {
       type: MESSAGE_TYPE.SUBJECTIVE,
       name: namePair,
-      message: message,
-      media: '',
+      ...parseMessage(message),
     };
   })
 
   return parsedLines;
+}
+
+const parseMessage = (message: string) => {
+  console.log('MESSAGE', message);
+  if (message.startsWith('[') && message.endsWith(']')) {
+    const media = message.slice(1, message.length - 1);
+    return { media };
+  }
+
+  return { message };
 }

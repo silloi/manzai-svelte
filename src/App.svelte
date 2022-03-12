@@ -21,9 +21,9 @@ images:
 
 /Socrates: うつくしい森で飾られたモーリオ市
 
-/Plato: 郊外のぎらぎらひかる草の波
+[https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Clouds_over_the_Atlantic_Ocean.jpg/2560px-Clouds_over_the_Atlantic_Ocean.jpg]
 
-[]
+/Plato: 郊外のぎらぎらひかる草の波
 
 /Socrates: 了
 `;

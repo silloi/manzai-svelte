@@ -15,9 +15,20 @@
   let position = 0;
   let background = "";
 
-  const slideToTop = () => (position = 0);
+  const resetBackground = () => {
+    background = "";
+  };
+
+  const slideToTop = () => {
+    resetBackground();
+
+    position = 0;
+  };
+
   const slideNext = () => {
-    if (contents[position + 1].type === MESSAGE_TYPE.MEDIA) {
+    resetBackground();
+
+    if (contents[position + 1].media) {
       background = contents[position + 1].media;
       position++;
     }
