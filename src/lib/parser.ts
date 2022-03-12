@@ -1,25 +1,24 @@
 import YAML from 'yaml';
 
 export enum MESSAGE_TYPE {
+  DESCRIPTIVE,
   SUBJECTIVE,
   OBJECTIVE,
-  DESCRIPTIVE,
-  MEDIA,
 };
 
-export interface IMessage {
+export type Message = {
   type: MESSAGE_TYPE;
   name: string;
   message: string;
   media: string;
 }
 
-export interface IParsedText {
+export type ParsedText = {
   header: any;
-  contents: IMessage[];
+  contents: Message[];
 }
 
-export const parseText = (text: string): IParsedText => {
+export const parseText = (text: string): ParsedText => {
   const result = {
     header: {},
     contents: [],
@@ -46,7 +45,7 @@ const eliminateFirstLetter = (str: string) => {
   return str.slice(1);
 }
 
-export const parseBody = (text: string): IMessage[] => {
+export const parseBody = (text: string): Message[] => {
   const rawLines = text.split("\n\n");
 
   const parsedLines = rawLines.map((line) => {
