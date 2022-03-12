@@ -9,6 +9,7 @@ export enum MESSAGE_TYPE {
 export type Message = {
   type: MESSAGE_TYPE;
   name: string;
+  avatar?: string;
   message?: string;
   media?: string;
 }
@@ -36,7 +37,7 @@ export const parseText = (text: string): ParsedText => {
   const [, rawHeader, rawBody] = splitText;
 
   result.header = YAML.parse(rawHeader.trim());
-  result.contents = parseBody(rawBody.trim());
+  result.contents = parseBody(rawBody.trim(), result.header);
 
   return result;
 }
@@ -45,7 +46,7 @@ const eliminateFirstLetter = (str: string) => {
   return str.slice(1);
 }
 
-export const parseBody = (text: string): Message[] => {
+export const parseBody = (text: string, header: { [key: string]: any } = {}): Message[] => {
   const rawLines = text.split("\n\n");
 
   const parsedLines = rawLines.map((line) => {
@@ -59,28 +60,31 @@ export const parseBody = (text: string): Message[] => {
 
     const [namePair, message] = line.split(': ');
 
-    if (namePair.startsWith('\\')) {
-      const name = eliminateFirstLetter(namePair);
-
-      return {
-        type: MESSAGE_TYPE.OBJECTIVE,
-        name: name,
-        ...parseMessage(message),
-      };
-    }
-
     if (namePair.startsWith('/')) {
       const name = eliminateFirstLetter(namePair);
 
       return {
         type: MESSAGE_TYPE.SUBJECTIVE,
         name: name,
+        ...assignAvatar(header, name),
+        ...parseMessage(message),
+      };
+    }
+
+    if (namePair.startsWith('\\')) {
+      const name = eliminateFirstLetter(namePair);
+
+      return {
+        type: MESSAGE_TYPE.OBJECTIVE,
+        name: name,
+        ...assignAvatar(header, name),
         ...parseMessage(message),
       };
     }
 
     return {
-      type: MESSAGE_TYPE.SUBJECTIVE,
+      type: MESSAGE_TYPE.OBJECTIVE,
+      ...assignAvatar(header, namePair),
       name: namePair,
       ...parseMessage(message),
     };
@@ -90,11 +94,18 @@ export const parseBody = (text: string): Message[] => {
 }
 
 const parseMessage = (message: string) => {
-  console.log('MESSAGE', message);
   if (message.startsWith('[') && message.endsWith(']')) {
     const media = message.slice(1, message.length - 1);
     return { media };
   }
 
   return { message };
+}
+
+const assignAvatar = (header: { [key: string]: any }, name: string) => {
+  if (!header || !header.actors) {
+    return { avatar: undefined };
+  }
+
+  return { avatar: header.actors.find((element: Message) => element.name === name).avatar };
 }

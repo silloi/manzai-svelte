@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { MESSAGE_TYPE, parseText } from "./parser";
+  import { MESSAGE_TYPE, Message, parseText } from "./parser";
 
   import Slide from "./Slide.svelte";
   import Keydown from "./Keydown.svelte";
@@ -13,7 +13,34 @@
   $: contents = parsedText.contents;
 
   let position = 0;
+
+  $: content = contents[position];
+
+  let left = "";
+  let right = "";
+
+  const setAvatar = (content: Message) => {
+    if (!content.avatar) {
+      return;
+    }
+
+    if (content.type === MESSAGE_TYPE.OBJECTIVE) {
+      left = content.avatar;
+    } else if (content.type === MESSAGE_TYPE.SUBJECTIVE) {
+      right = content.avatar;
+    }
+  };
+  $: setAvatar(content);
+
   let background = "";
+
+  const setBackground = (content: Message) => {
+    if (content.media) {
+      background = contents[position].media;
+      position++;
+    }
+  };
+  $: setBackground(content);
 
   const resetBackground = () => {
     background = "";
@@ -27,11 +54,6 @@
 
   const slideNext = () => {
     resetBackground();
-
-    if (contents[position + 1].media) {
-      background = contents[position + 1].media;
-      position++;
-    }
 
     position++;
   };
@@ -52,11 +74,15 @@
     </div>
 
     <div class="narrators">
-      {#if header.images.length > 0 && header.images[0]}
-        <img class="narrator" src={header.images[0]} alt="" />
+      {#if left}
+        <img class="narrator left" src={left} alt="" />
+      {:else}
+        <div />
       {/if}
-      {#if header.images.length > 1 && header.images[1]}
-        <img class="narrator" src={header.images[1]} alt="" />
+      {#if right}
+        <img class="narrator right" src={right} alt="" />
+      {:else}
+        <div />
       {/if}
     </div>
 

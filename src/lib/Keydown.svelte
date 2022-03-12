@@ -6,7 +6,6 @@
   let keyCode = 0;
 
   const handleKeydown = (event) => {
-    console.log(keyCode);
     if (position >= contents.length - 1) {
       return;
     }
