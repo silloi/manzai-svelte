@@ -4,6 +4,7 @@
   import Slide from "./Slide.svelte";
   import Keydown from "./Keydown.svelte";
   import Actors from "./Actors.svelte";
+  import Tools from "./Tools.svelte";
 
   export let text = "";
   export let isFocused = false;
@@ -54,13 +55,7 @@
 
     <Actors {content} />
 
-    <div class="tools">
-      <button on:click={slideToTop}>top</button>
-
-      {#if position !== contents.length - 1}
-        <button on:click={slideNext}>next</button>
-      {/if}
-    </div>
+    <Tools {slideToTop} {slideNext} />
 
     <div class="background" style="background-image: url({background})" />
   </main>
@@ -88,13 +83,6 @@
     width: 100%;
     bottom: 0;
     z-index: 10;
-  }
-
-  .tools {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    z-index: 1000;
   }
 
   .background {
