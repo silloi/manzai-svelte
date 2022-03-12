@@ -20,6 +20,8 @@
   let background = "";
 
   const setBackground = (content: Message) => {
+    background = "";
+
     if (content.media) {
       background = contents[position].media;
       position++;
@@ -27,19 +29,11 @@
   };
   $: setBackground(content);
 
-  const resetBackground = () => {
-    background = "";
-  };
-
   const slideToTop = () => {
-    resetBackground();
-
     position = 0;
   };
 
   const slideNext = () => {
-    resetBackground();
-
     position++;
   };
 </script>
