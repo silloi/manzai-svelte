@@ -53,7 +53,7 @@ export const parseBody = (text: string): Message[] => {
       const src = line.slice(1, line.length - 1);
 
       return {
-        type: MESSAGE_TYPE.MEDIA,
+        type: MESSAGE_TYPE.DESCRIPTIVE,
         name: '',
         message: '',
         media: src,
