@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { MESSAGE_TYPE, Message } from "./parser";
+  import { MESSAGE_TYPE } from "./enums/common";
+  import type { Message } from "./types/common";
 
   export let content: Message;
 

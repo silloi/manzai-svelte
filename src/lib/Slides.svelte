@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Message, parseText } from "./parser";
+  import { parseText } from "./parser";
 
   import Slide from "./Slide.svelte";
   import Keydown from "./Keydown.svelte";

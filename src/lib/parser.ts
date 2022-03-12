@@ -1,23 +1,6 @@
 import YAML from 'yaml';
-
-export enum MESSAGE_TYPE {
-  DESCRIPTIVE,
-  SUBJECTIVE,
-  OBJECTIVE,
-};
-
-export type Message = {
-  type: MESSAGE_TYPE;
-  name: string;
-  avatar?: string;
-  message?: string;
-  media?: string;
-}
-
-export type ParsedText = {
-  header: any;
-  contents: Message[];
-}
+import { MESSAGE_TYPE } from './enums/common';
+import type { Message, ParsedText } from './types/common';
 
 export const parseText = (text: string): ParsedText => {
   const result = {

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Message } from "./parser";
+  import type { Message } from "./types/common";
 
   export let position = 0;
   export let content: Message;
