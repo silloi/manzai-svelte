@@ -5,13 +5,18 @@
   export let content: Message;
 
   let background = "";
+  let skipFlag = false;
 
   const setBackground = (content: Message) => {
-    background = "";
+    if (!skipFlag) {
+      background = "";
+    }
+    skipFlag = false;
 
     if (content.media) {
       background = content.media;
       position++;
+      skipFlag = true;
     }
   };
   $: setBackground(content);

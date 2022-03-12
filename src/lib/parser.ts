@@ -29,15 +29,14 @@ const eliminateFirstLetter = (str: string) => {
   return str.slice(1);
 }
 
-export const parseBody = (text: string, header: { [key: string]: any } = {}): Message[] => {
+export const parseBody = (text: string, header: { [key: string]: Message[] } = {}): Message[] => {
   const rawLines = text.split("\n\n");
 
   const parsedLines = rawLines.map((line) => {
     if (!line.includes(': ')) {
       return {
-        type: MESSAGE_TYPE.DESCRIPTIVE,
-        name: '',
         ...parseMessage(line),
+        type: MESSAGE_TYPE.DESCRIPTIVE,
       };
     }
 
@@ -47,10 +46,11 @@ export const parseBody = (text: string, header: { [key: string]: any } = {}): Me
       const name = eliminateFirstLetter(namePair);
 
       return {
-        type: MESSAGE_TYPE.SUBJECTIVE,
-        name: name,
+        ...assignType(header, name),
         ...assignAvatar(header, name),
         ...parseMessage(message),
+        type: MESSAGE_TYPE.SUBJECTIVE,
+        name: name,
       };
     }
 
@@ -58,18 +58,20 @@ export const parseBody = (text: string, header: { [key: string]: any } = {}): Me
       const name = eliminateFirstLetter(namePair);
 
       return {
-        type: MESSAGE_TYPE.OBJECTIVE,
-        name: name,
+        ...assignType(header, name),
         ...assignAvatar(header, name),
         ...parseMessage(message),
+        name: name,
+        type: MESSAGE_TYPE.OBJECTIVE,
       };
     }
 
     return {
-      type: MESSAGE_TYPE.OBJECTIVE,
+      ...assignType(header, namePair),
       ...assignAvatar(header, namePair),
-      name: namePair,
       ...parseMessage(message),
+      type: MESSAGE_TYPE.OBJECTIVE,
+      name: namePair,
     };
   })
 
@@ -85,7 +87,15 @@ const parseMessage = (message: string) => {
   return { message };
 }
 
-const assignAvatar = (header: { [key: string]: any }, name: string) => {
+const assignType = (header: { [key: string]: Message[] }, name: string) => {
+  if (!header || !header.actors) {
+    return { type: undefined };
+  }
+
+  return { type: header.actors.find((element: Message) => element.name === name).type };
+}
+
+const assignAvatar = (header: { [key: string]: Message[] }, name: string) => {
   if (!header || !header.actors) {
     return { avatar: undefined };
   }
