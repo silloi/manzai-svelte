@@ -3,7 +3,7 @@
 
   import Slide from "./Slide.svelte";
   import Keydown from "./Keydown.svelte";
-  import Avatars from "./Avatars.svelte";
+  import Actors from "./Actors.svelte";
 
   export let text = "";
   export let isFocused = false;
@@ -52,7 +52,7 @@
       {/each}
     </div>
 
-    <Avatars {content} />
+    <Actors {content} />
 
     <div class="tools">
       <button on:click={slideToTop}>top</button>
