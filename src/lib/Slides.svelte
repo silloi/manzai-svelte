@@ -47,7 +47,7 @@
     <div class="messages">
       {#each contents as item, index}
         {#if index === position}
-          <Slide {...item} />
+          <Slide message={item.message} />
         {/if}
       {/each}
     </div>
