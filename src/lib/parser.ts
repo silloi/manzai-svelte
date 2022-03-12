@@ -35,8 +35,8 @@ export const parseBody = (text: string, header: { [key: string]: Message[] } = {
   const parsedLines = rawLines.map((line) => {
     if (!line.includes(': ')) {
       return {
-        ...parseMessage(line),
         type: MESSAGE_TYPE.DESCRIPTIVE,
+        ...parseMessage(line),
       };
     }
 
@@ -46,11 +46,11 @@ export const parseBody = (text: string, header: { [key: string]: Message[] } = {
       const name = eliminateFirstLetter(namePair);
 
       return {
+        name: name,
+        type: MESSAGE_TYPE.SUBJECTIVE,
         ...assignType(header, name),
         ...assignAvatar(header, name),
         ...parseMessage(message),
-        type: MESSAGE_TYPE.SUBJECTIVE,
-        name: name,
       };
     }
 
@@ -58,20 +58,20 @@ export const parseBody = (text: string, header: { [key: string]: Message[] } = {
       const name = eliminateFirstLetter(namePair);
 
       return {
+        name: name,
+        type: MESSAGE_TYPE.OBJECTIVE,
         ...assignType(header, name),
         ...assignAvatar(header, name),
         ...parseMessage(message),
-        name: name,
-        type: MESSAGE_TYPE.OBJECTIVE,
       };
     }
 
     return {
+      name: namePair,
+      type: MESSAGE_TYPE.OBJECTIVE,
       ...assignType(header, namePair),
       ...assignAvatar(header, namePair),
       ...parseMessage(message),
-      type: MESSAGE_TYPE.OBJECTIVE,
-      name: namePair,
     };
   })
 
