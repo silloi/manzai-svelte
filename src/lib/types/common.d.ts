@@ -1,3 +1,5 @@
+import type { MESSAGE_TYPE } from "../enums/common"
+
 export type Message = {
   type?: MESSAGE_TYPE;
   name?: string;
