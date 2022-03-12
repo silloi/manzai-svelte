@@ -1,14 +1,13 @@
 <script lang="ts">
   import { MESSAGE_TYPE } from "./parser";
 
-  export let type: typeof MESSAGE_TYPE[keyof typeof MESSAGE_TYPE] =
-    MESSAGE_TYPE.DESCRIPTIVE;
-  export let narrator = "";
+  export let type: MESSAGE_TYPE = MESSAGE_TYPE.DESCRIPTIVE;
+  export let name = "";
   export let message = "";
 </script>
 
 <article>
-  <span>{narrator}</span>
+  <span>{name}</span>
   <p>{message}</p>
 </article>
 

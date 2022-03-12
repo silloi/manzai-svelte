@@ -1,15 +1,15 @@
 import YAML from 'yaml';
 
-export const MESSAGE_TYPE = {
-  SUBJECTIVE: 'subjective',
-  OBJECTIVE: 'objective',
-  DESCRIPTIVE: 'descriptive',
-  MEDIA: 'media',
-} as const;
+export enum MESSAGE_TYPE {
+  SUBJECTIVE,
+  OBJECTIVE,
+  DESCRIPTIVE,
+  MEDIA,
+};
 
 export interface IMessage {
-  type: typeof MESSAGE_TYPE[keyof typeof MESSAGE_TYPE];
-  narrator: string;
+  type: MESSAGE_TYPE;
+  name: string;
   message: string;
   media: string;
 }
@@ -19,23 +19,22 @@ export interface IParsedText {
   contents: IMessage[];
 }
 
-
 export const parseText = (text: string): IParsedText => {
   const result = {
     header: {},
     contents: [],
   };
 
-  const textSplit = text.split('---\n');
+  const splitText = text.split('---\n');
 
-  if (textSplit.length < 3) {
-    const rawBody = textSplit[textSplit.length - 1];
-    result.contents = parseBody(rawBody);
+  if (splitText.length < 3) {
+    const rawBody = splitText[splitText.length - 1];
+    result.contents = parseBody(rawBody.trim());
 
     return result;
   }
 
-  const [, rawHeader, rawBody] = textSplit;
+  const [, rawHeader, rawBody] = splitText;
 
   result.header = YAML.parse(rawHeader.trim());
   result.contents = parseBody(rawBody.trim());
@@ -56,7 +55,7 @@ export const parseBody = (text: string): IMessage[] => {
 
       return {
         type: MESSAGE_TYPE.MEDIA,
-        narrator: '',
+        name: '',
         message: '',
         media: src,
       }
@@ -65,31 +64,31 @@ export const parseBody = (text: string): IMessage[] => {
     if (!line.includes(':')) {
       return {
         type: MESSAGE_TYPE.DESCRIPTIVE,
-        narrator: '',
+        name: '',
         message: line,
         media: '',
       };
     }
 
-    const [narratorPair, message] = line.split(': ');
+    const [namePair, message] = line.split(': ');
 
-    if (narratorPair.startsWith('\\')) {
-      const narrator = eliminateFirstLetter(narratorPair);
+    if (namePair.startsWith('\\')) {
+      const name = eliminateFirstLetter(namePair);
 
       return {
         type: MESSAGE_TYPE.OBJECTIVE,
-        narrator: narrator,
+        name: name,
         message: message,
         media: '',
       };
     }
 
-    if (narratorPair.startsWith('/')) {
-      const narrator = eliminateFirstLetter(narratorPair);
+    if (namePair.startsWith('/')) {
+      const name = eliminateFirstLetter(namePair);
 
       return {
         type: MESSAGE_TYPE.SUBJECTIVE,
-        narrator: narrator,
+        name: name,
         message: message,
         media: '',
       };
@@ -97,7 +96,7 @@ export const parseBody = (text: string): IMessage[] => {
 
     return {
       type: MESSAGE_TYPE.SUBJECTIVE,
-      narrator: narratorPair,
+      name: namePair,
       message: message,
       media: '',
     };
