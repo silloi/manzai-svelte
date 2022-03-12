@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { MESSAGE_TYPE, Message, parseText } from "./parser";
+  import { Message, parseText } from "./parser";
 
   import Slide from "./Slide.svelte";
   import Keydown from "./Keydown.svelte";
+  import Avatars from "./Avatars.svelte";
 
   export let text = "";
   export let isFocused = false;
@@ -15,22 +16,6 @@
   let position = 0;
 
   $: content = contents[position];
-
-  let left = "";
-  let right = "";
-
-  const setAvatar = (content: Message) => {
-    if (!content.avatar) {
-      return;
-    }
-
-    if (content.type === MESSAGE_TYPE.OBJECTIVE) {
-      left = content.avatar;
-    } else if (content.type === MESSAGE_TYPE.SUBJECTIVE) {
-      right = content.avatar;
-    }
-  };
-  $: setAvatar(content);
 
   let background = "";
 
@@ -73,18 +58,7 @@
       {/each}
     </div>
 
-    <div class="narrators">
-      {#if left}
-        <img class="narrator left" src={left} alt="" />
-      {:else}
-        <div />
-      {/if}
-      {#if right}
-        <img class="narrator right" src={right} alt="" />
-      {:else}
-        <div />
-      {/if}
-    </div>
+    <Avatars {content} />
 
     <div class="tools">
       <button on:click={slideToTop}>top</button>
@@ -120,21 +94,6 @@
     width: 100%;
     bottom: 0;
     z-index: 10;
-  }
-
-  .narrators {
-    position: absolute;
-    bottom: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
-    width: 100%;
-    z-index: 1;
-  }
-
-  .narrator {
-    height: 100%;
-    width: 25%;
   }
 
   .tools {
