@@ -5,6 +5,7 @@
   import Keydown from "./Keydown.svelte";
   import Actors from "./Actors.svelte";
   import Tools from "./Tools.svelte";
+  import Background from "./Background.svelte";
 
   export let text = "";
   export let isFocused = false;
@@ -18,24 +19,14 @@
 
   $: content = contents[position];
 
-  let background = "";
-
-  const setBackground = (content: Message) => {
-    background = "";
-
-    if (content.media) {
-      background = contents[position].media;
-      position++;
-    }
-  };
-  $: setBackground(content);
-
   const slideToTop = () => {
     position = 0;
   };
 
   const slideNext = () => {
-    position++;
+    if (position < contents.length - 1) {
+      position++;
+    }
   };
 </script>
 
@@ -57,7 +48,7 @@
 
     <Tools {slideToTop} {slideNext} />
 
-    <div class="background" style="background-image: url({background})" />
+    <Background bind:position {content} />
   </main>
 </div>
 
@@ -83,12 +74,5 @@
     width: 100%;
     bottom: 0;
     z-index: 10;
-  }
-
-  .background {
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    height: 100%;
   }
 </style>
