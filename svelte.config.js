@@ -1,3 +1,4 @@
+import path from 'path';
 import adapter from '@sveltejs/adapter-auto';
 import preprocess from 'svelte-preprocess';
 
@@ -8,6 +9,13 @@ const config = {
 	preprocess: preprocess(),
 
 	kit: {
+		vite: {
+			resolve: {
+				alias: {
+					'svelte-manzai': path.resolve('src/lib')
+				}
+			}
+		},
 		adapter: adapter()
 	}
 };

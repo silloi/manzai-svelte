@@ -1,7 +1,7 @@
 <script lang="ts">
-	import ResetCss from '$lib/ResetCss.svelte';
-	import Slides from '$lib/Slides.svelte';
-	import Textarea from '$lib/Textarea.svelte';
+	import ResetCss from 'svelte-manzai/ResetCss.svelte';
+	import Slides from 'svelte-manzai/Slides.svelte';
+	import Textarea from 'svelte-manzai/Textarea.svelte';
 
 	let isFocused = false;
 	const onFocus = () => (isFocused = true);
