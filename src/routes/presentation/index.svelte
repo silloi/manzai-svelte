@@ -3,7 +3,7 @@
 	import Slides from 'svelte-manzai/Slides.svelte';
 	import Textarea from 'svelte-manzai/Textarea.svelte';
 
-	import { protagoras } from '$lib/samples/texts';
+	import protagoras from '$lib/samples/protagoras';
 
 	let isFocused = false;
 	const onFocus = () => (isFocused = true);

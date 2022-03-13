@@ -1,4 +1,4 @@
-export const protagoras = `---
+const protagoras = `---
 title: Protagoras
 description: Protagoras, written by Plato
 actors:
@@ -77,4 +77,6 @@ Com: Thank you, too, for telling us.
 Soc: That is thank you twice over.
 
 Soc: Listen then:
-`
+`;
+
+export default protagoras;
