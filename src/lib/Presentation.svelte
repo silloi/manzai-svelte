@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ResetCss from '$lib/ResetCss.svelte';
-	import Slides from '$lib/Slides.svelte';
+	import Slides from '$lib/presentation/Slides.svelte';
 	import Textarea from '$lib/Textarea.svelte';
 
 	export let text = '';
