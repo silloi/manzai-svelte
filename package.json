@@ -30,6 +30,7 @@
   },
   "type": "module",
   "dependencies": {
-    "yaml": "^1.10.2"
+    "@types/js-yaml": "^4.0.5",
+    "js-yaml": "^4.1.0"
   }
 }
