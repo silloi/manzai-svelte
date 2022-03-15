@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { parseText } from '$lib/parser';
+	import { parseText } from '$lib/parse';
 
 	import Slide from './Slide.svelte';
 	import Keydown from './Keydown.svelte';

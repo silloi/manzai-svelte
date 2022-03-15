@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { parseText } from '$lib/parser';
+	import { parseText } from '$lib/parse';
 	import Messages from './Messages.svelte';
 
 	export let text = '';
