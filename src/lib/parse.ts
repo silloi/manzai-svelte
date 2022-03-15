@@ -1,6 +1,7 @@
 import yaml from 'js-yaml';
 import { MESSAGE_TYPE } from './enums/common';
 import type { Header, Message, ParsedText } from './types/common';
+import { isObject, eliminateFirstLetter, eliminateLastLetter } from './util';
 
 export const parseText = (text: string): ParsedText => {
   const result = {
@@ -111,16 +112,4 @@ const parseActors = (header: Header) => {
   }
 
   return header.actors as Message[];
-};
-
-const eliminateFirstLetter = (str: string) => {
-  return str.slice(1);
-}
-
-const eliminateLastLetter = (str: string) => {
-  return str.slice(0, str.length - 1);
-}
-
-const isObject = (value: unknown) => {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
 };
