@@ -1,6 +1,6 @@
-import YAML from 'yaml';
+import yaml from 'js-yaml';
 import { MESSAGE_TYPE } from './enums/common';
-import type { Message, ParsedText } from './types/common';
+import type { Header, Message, ParsedText } from './types/common';
 
 export const parseText = (text: string): ParsedText => {
   const result = {
@@ -19,17 +19,23 @@ export const parseText = (text: string): ParsedText => {
 
   const [, rawHeader, rawBody] = splitText;
 
-  result.header = YAML.parse(rawHeader.trim());
+  result.header = parseHeader(rawHeader.trim());
   result.contents = parseBody(rawBody.trim(), result.header);
 
   return result;
 }
 
-const eliminateFirstLetter = (str: string) => {
-  return str.slice(1);
+const parseHeader = (text: string) => {
+  const header = yaml.load(text.trim());
+
+  if (!isObject(header)) {
+    return {};
+  }
+
+  return header as Header;
 }
 
-export const parseBody = (text: string, header: { [key: string]: Message[] } = {}): Message[] => {
+const parseBody = (text: string, header: Header = {}): Message[] => {
   const rawLines = text.split("\n\n");
 
   const parsedLines = rawLines.map((line) => {
@@ -80,25 +86,41 @@ export const parseBody = (text: string, header: { [key: string]: Message[] } = {
 
 const parseMessage = (message: string) => {
   if (message.startsWith('[') && message.endsWith(']')) {
-    const media = message.slice(1, message.length - 1);
+    const media = eliminateLastLetter(eliminateFirstLetter(message));
     return { media };
   }
 
   return { message };
 }
 
-const assignType = (header: { [key: string]: Message[] }, name: string) => {
-  if (!header || !header.actors) {
-    return { type: undefined };
-  }
+const assignType = (header: Header, name: string) => {
+  const actors = parseActors(header);
 
-  return { type: header.actors.find((element: Message) => element.name === name).type };
+  return { type: actors.find((element: Message) => element.name === name)?.type };
 }
 
-const assignAvatar = (header: { [key: string]: Message[] }, name: string) => {
-  if (!header || !header.actors) {
-    return { avatar: undefined };
+const assignAvatar = (header: Header, name: string) => {
+  const actors = parseActors(header);
+
+  return { avatar: actors.find((element: Message) => element.name === name)?.avatar };
+}
+
+const parseActors = (header: Header) => {
+  if (!header.actors || !Array.isArray(header.actors)) {
+    return undefined;
   }
 
-  return { avatar: header.actors.find((element: Message) => element.name === name).avatar };
+  return header.actors as Message[];
+};
+
+const eliminateFirstLetter = (str: string) => {
+  return str.slice(1);
 }
+
+const eliminateLastLetter = (str: string) => {
+  return str.slice(0, str.length - 1);
+}
+
+const isObject = (value: unknown) => {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+};
