@@ -1,7 +1,7 @@
-import yaml from 'js-yaml';
-import { MESSAGE_TYPE } from './enums/common';
-import type { Header, Message, ParsedText } from './types/common';
-import { isObject, eliminateFirstLetter, eliminateLastLetter } from './util';
+import yaml from "js-yaml";
+import { MESSAGE_TYPE } from "./enums/common";
+import type { Header, Message, ParsedText } from "./types/common";
+import { isObject, eliminateFirstLetter, eliminateLastLetter } from "./util";
 
 export const parseText = (text: string): ParsedText => {
   const result = {
@@ -9,7 +9,7 @@ export const parseText = (text: string): ParsedText => {
     contents: <Message[]>[],
   };
 
-  const splitText = text.split('---\n');
+  const splitText = text.split("---\n");
 
   if (splitText.length < 3) {
     const rawBody = splitText[splitText.length - 1];
@@ -40,16 +40,16 @@ const parseBody = (text: string, header: Header = {}): Message[] => {
   const rawLines = text.split("\n\n");
 
   const parsedLines = rawLines.map((line) => {
-    if (!line.includes(': ')) {
+    if (!line.includes(": ")) {
       return {
         type: MESSAGE_TYPE.DESCRIPTIVE,
         ...parseMessage(line),
       };
     }
 
-    const [namePair, message] = line.split(': ');
+    const [namePair, message] = line.split(": ");
 
-    if (namePair.startsWith('/')) {
+    if (namePair.startsWith("/")) {
       const name = eliminateFirstLetter(namePair);
 
       return {
@@ -60,7 +60,7 @@ const parseBody = (text: string, header: Header = {}): Message[] => {
       };
     }
 
-    if (namePair.startsWith('\\')) {
+    if (namePair.startsWith("\\")) {
       const name = eliminateFirstLetter(namePair);
 
       return {
@@ -83,7 +83,7 @@ const parseBody = (text: string, header: Header = {}): Message[] => {
 }
 
 const parseMessage = (message: string) => {
-  if (message.startsWith('[') && message.endsWith(']')) {
+  if (message.startsWith("[") && message.endsWith("]")) {
     const media = eliminateLastLetter(eliminateFirstLetter(message));
     return { media };
   }
