@@ -6,7 +6,7 @@ import { isObject, eliminateFirstLetter, eliminateLastLetter } from './util';
 export const parseText = (text: string): ParsedText => {
   const result = {
     header: {},
-    contents: [],
+    contents: <Message[]>[],
   };
 
   const splitText = text.split('---\n');
@@ -54,9 +54,8 @@ const parseBody = (text: string, header: Header = {}): Message[] => {
 
       return {
         name: name,
-        type: MESSAGE_TYPE.SUBJECTIVE,
-        ...assignType(header, name),
-        ...assignAvatar(header, name),
+        type: assignType(header, name) ?? MESSAGE_TYPE.SUBJECTIVE,
+        avatar: assignAvatar(header, name),
         ...parseMessage(message),
       };
     }
@@ -66,18 +65,16 @@ const parseBody = (text: string, header: Header = {}): Message[] => {
 
       return {
         name: name,
-        type: MESSAGE_TYPE.OBJECTIVE,
-        ...assignType(header, name),
-        ...assignAvatar(header, name),
+        type: assignType(header, name) ?? MESSAGE_TYPE.OBJECTIVE,
+        avatar: assignAvatar(header, name),
         ...parseMessage(message),
       };
     }
 
     return {
       name: namePair,
-      type: MESSAGE_TYPE.OBJECTIVE,
-      ...assignType(header, namePair),
-      ...assignAvatar(header, namePair),
+      type: assignType(header, namePair) ?? MESSAGE_TYPE.OBJECTIVE,
+      avatar: assignAvatar(header, namePair),
       ...parseMessage(message),
     };
   })
@@ -97,13 +94,13 @@ const parseMessage = (message: string) => {
 const assignType = (header: Header, name: string) => {
   const actors = parseActors(header);
 
-  return { type: actors.find((element: Message) => element.name === name)?.type };
+  return actors?.find((element: Message) => element.name === name)?.type;
 }
 
 const assignAvatar = (header: Header, name: string) => {
   const actors = parseActors(header);
 
-  return { avatar: actors.find((element: Message) => element.name === name)?.avatar };
+  return actors?.find((element: Message) => element.name === name)?.avatar;
 }
 
 const parseActors = (header: Header) => {
