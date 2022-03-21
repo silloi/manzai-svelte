@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { parseText } from '$lib/parse';
+	import { parse } from '$lib';
 
 	import Slide from './Slide.svelte';
 	import Keydown from './Keydown.svelte';
@@ -10,7 +10,7 @@
 	export let text = '';
 	export let isFocused = false;
 
-	$: parsedText = parseText(text);
+	$: parsedText = parse(text);
 
 	$: header = parsedText.header;
 	$: contents = parsedText.contents;

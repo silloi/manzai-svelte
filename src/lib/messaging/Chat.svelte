@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { parseText } from '$lib/parse';
+	import { parse } from '$lib';
 	import Messages from './Messages.svelte';
 
 	export let text = '';
 
-	$: parsedText = parseText(text);
+	$: parsedText = parse(text);
 
 	$: header = parsedText.header;
 	$: contents = parsedText.contents;
