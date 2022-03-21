@@ -21,21 +21,21 @@
 	$: setAvatar(content);
 </script>
 
-<div class="actors">
+<div class="narrators">
 	{#if left}
-		<img class="actor left" src={left} alt="" />
+		<img class="narrator left" src={left} alt="" />
 	{:else}
 		<div />
 	{/if}
 	{#if right}
-		<img class="actor right" src={right} alt="" />
+		<img class="narrator right" src={right} alt="" />
 	{:else}
 		<div />
 	{/if}
 </div>
 
 <style>
-	.actors {
+	.narrators {
 		position: absolute;
 		bottom: 0;
 		display: flex;
@@ -45,7 +45,7 @@
 		z-index: 1;
 	}
 
-	.actor {
+	.narrator {
 		height: 100%;
 		width: 25%;
 	}

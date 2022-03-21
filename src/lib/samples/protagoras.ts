@@ -1,7 +1,7 @@
 const protagoras = `---
 title: Protagoras
 description: Protagoras, written by Plato
-actors:
+narrators:
   - name: Com
     type: 1
     avatar: https://upload.wikimedia.org/wikipedia/commons/9/9e/Plato_and_Aristotle.png

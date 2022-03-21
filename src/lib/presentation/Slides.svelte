@@ -3,7 +3,7 @@
 
 	import Slide from './Slide.svelte';
 	import Keydown from './Keydown.svelte';
-	import Actors from './Actors.svelte';
+	import Narrators from './Narrators.svelte';
 	import Tools from './Tools.svelte';
 	import Background from './Background.svelte';
 
@@ -44,7 +44,7 @@
 			{/each}
 		</div>
 
-		<Actors {content} />
+		<Narrators {content} />
 
 		<Tools {slideToTop} {slideNext} />
 

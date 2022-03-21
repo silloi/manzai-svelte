@@ -94,21 +94,21 @@ const parseMessage = (message: string) => {
 }
 
 const assignType = (header: Header, name: string) => {
-  const actors = parseActors(header);
+  const narrators = parseNarrators(header);
 
-  return actors?.find((element: Message) => element.name === name)?.type;
+  return narrators?.find((element: Message) => element.name === name)?.type;
 }
 
 const assignAvatar = (header: Header, name: string) => {
-  const actors = parseActors(header);
+  const narrators = parseNarrators(header);
 
-  return actors?.find((element: Message) => element.name === name)?.avatar;
+  return narrators?.find((element: Message) => element.name === name)?.avatar;
 }
 
-const parseActors = (header: Header) => {
-  if (!header.actors || !Array.isArray(header.actors)) {
+const parseNarrators = (header: Header) => {
+  if (!header.narrators || !Array.isArray(header.narrators)) {
     return undefined;
   }
 
-  return header.actors as Message[];
+  return header.narrators as Message[];
 };
