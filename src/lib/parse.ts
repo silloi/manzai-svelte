@@ -24,7 +24,7 @@ export const parseText = (text: string): ParsedText => {
   result.contents = parseBody(rawBody.trim(), result.header);
 
   return result;
-}
+};
 
 const parseHeader = (text: string) => {
   const header = yaml.load(text.trim());
@@ -34,7 +34,7 @@ const parseHeader = (text: string) => {
   }
 
   return header as Header;
-}
+};
 
 const parseBody = (text: string, header: Header = {}): Message[] => {
   const rawLines = text.split("\n\n");
@@ -82,7 +82,7 @@ const parseBody = (text: string, header: Header = {}): Message[] => {
   })
 
   return parsedLines;
-}
+};
 
 const parseMessage = (message: string) => {
   if (message.startsWith("[") && message.endsWith("]")) {
@@ -91,19 +91,19 @@ const parseMessage = (message: string) => {
   }
 
   return { message };
-}
+};
 
 const assignType = (header: Header, name: string) => {
   const narrators = parseNarrators(header);
 
   return narrators?.find((element: Message) => element.name === name)?.type;
-}
+};
 
 const assignAvatar = (header: Header, name: string) => {
   const narrators = parseNarrators(header);
 
   return narrators?.find((element: Message) => element.name === name)?.avatar;
-}
+};
 
 const parseNarrators = (header: Header) => {
   if (!header.narrators || !Array.isArray(header.narrators)) {
