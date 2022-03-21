@@ -1,13 +1,13 @@
 <script lang="ts">
-	import type { Message } from '$lib/types/common';
+	import type { Content } from '$lib/types/common';
 
 	export let position = 0;
-	export let content: Message;
+	export let content: Content;
 
 	let background = '';
 	let skipFlag = false;
 
-	const setBackground = (content: Message) => {
+	const setBackground = (content: Content) => {
 		if (!skipFlag) {
 			background = '';
 		}

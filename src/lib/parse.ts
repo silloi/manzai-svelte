@@ -1,12 +1,12 @@
 import yaml from "js-yaml";
 import { MESSAGE_TYPE } from "./enums/common";
-import type { Header, Message, ParsedText } from "./types/common";
+import type { Header, Content, ParsedText } from "./types/common";
 import { isObject, eliminateFirstLetter, eliminateLastLetter } from "./util";
 
 export const parseText = (text: string): ParsedText => {
   const result = {
     header: {},
-    contents: <Message[]>[],
+    contents: <Content[]>[],
   };
 
   const splitText = text.split("---\n");
@@ -36,7 +36,7 @@ const parseHeader = (text: string) => {
   return header as Header;
 };
 
-const parseBody = (text: string, header: Header = {}): Message[] => {
+const parseBody = (text: string, header: Header = {}): Content[] => {
   const rawLines = text.split("\n\n");
 
   const parsedLines = rawLines.map((rawLine) => {
@@ -45,7 +45,7 @@ const parseBody = (text: string, header: Header = {}): Message[] => {
     if (!line.includes(": ")) {
       return {
         type: MESSAGE_TYPE.DESCRIPTIVE,
-        ...parseMessage(line),
+        ...parseContent(line),
       };
     }
 
@@ -58,7 +58,7 @@ const parseBody = (text: string, header: Header = {}): Message[] => {
         name: name,
         type: MESSAGE_TYPE.SUBJECTIVE,
         avatar: assignAvatar(header, name),
-        ...parseMessage(message),
+        ...parseContent(message),
       };
     }
 
@@ -69,7 +69,7 @@ const parseBody = (text: string, header: Header = {}): Message[] => {
         name: name,
         type: MESSAGE_TYPE.OBJECTIVE,
         avatar: assignAvatar(header, name),
-        ...parseMessage(message),
+        ...parseContent(message),
       };
     }
 
@@ -77,14 +77,14 @@ const parseBody = (text: string, header: Header = {}): Message[] => {
       name: namePair,
       type: assignType(header, namePair) ?? MESSAGE_TYPE.OBJECTIVE,
       avatar: assignAvatar(header, namePair),
-      ...parseMessage(message),
+      ...parseContent(message),
     };
   })
 
   return parsedLines;
 };
 
-const parseMessage = (message: string) => {
+const parseContent = (message: string) => {
   if (message.startsWith("[") && message.endsWith("]")) {
     const media = eliminateLastLetter(eliminateFirstLetter(message));
     return { media };
@@ -96,13 +96,13 @@ const parseMessage = (message: string) => {
 const assignType = (header: Header, name: string) => {
   const narrators = parseNarrators(header);
 
-  return narrators?.find((element: Message) => element.name === name)?.type;
+  return narrators?.find((element: Content) => element.name === name)?.type;
 };
 
 const assignAvatar = (header: Header, name: string) => {
   const narrators = parseNarrators(header);
 
-  return narrators?.find((element: Message) => element.name === name)?.avatar;
+  return narrators?.find((element: Content) => element.name === name)?.avatar;
 };
 
 const parseNarrators = (header: Header) => {
@@ -110,5 +110,5 @@ const parseNarrators = (header: Header) => {
     return undefined;
   }
 
-  return header.narrators as Message[];
+  return header.narrators as Content[];
 };
