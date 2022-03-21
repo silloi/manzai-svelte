@@ -39,7 +39,9 @@ const parseHeader = (text: string) => {
 const parseBody = (text: string, header: Header = {}): Message[] => {
   const rawLines = text.split("\n\n");
 
-  const parsedLines = rawLines.map((line) => {
+  const parsedLines = rawLines.map((rawLine) => {
+    const line = rawLine.trim();
+
     if (!line.includes(": ")) {
       return {
         type: MESSAGE_TYPE.DESCRIPTIVE,
@@ -54,7 +56,7 @@ const parseBody = (text: string, header: Header = {}): Message[] => {
 
       return {
         name: name,
-        type: assignType(header, name) ?? MESSAGE_TYPE.SUBJECTIVE,
+        type: MESSAGE_TYPE.SUBJECTIVE,
         avatar: assignAvatar(header, name),
         ...parseMessage(message),
       };
@@ -65,7 +67,7 @@ const parseBody = (text: string, header: Header = {}): Message[] => {
 
       return {
         name: name,
-        type: assignType(header, name) ?? MESSAGE_TYPE.OBJECTIVE,
+        type: MESSAGE_TYPE.OBJECTIVE,
         avatar: assignAvatar(header, name),
         ...parseMessage(message),
       };
