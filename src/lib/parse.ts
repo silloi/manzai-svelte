@@ -45,11 +45,12 @@ const parseBody = (text: string, header: Header = {}): Content[] => {
     if (!line.includes(": ")) {
       return {
         type: MESSAGE_TYPE.DESCRIPTIVE,
-        ...parseContent(line),
+        ...parseMessage(line),
       };
     }
 
-    const [namePair, message] = line.split(": ");
+    const [namePair, ...residue] = line.split(": ");
+    const message = residue.join(": ");
 
     if (namePair.startsWith("/")) {
       const name = eliminateFirstLetter(namePair);
@@ -58,7 +59,7 @@ const parseBody = (text: string, header: Header = {}): Content[] => {
         name: name,
         type: MESSAGE_TYPE.SUBJECTIVE,
         avatar: assignAvatar(header, name),
-        ...parseContent(message),
+        ...parseMessage(message),
       };
     }
 
@@ -69,7 +70,7 @@ const parseBody = (text: string, header: Header = {}): Content[] => {
         name: name,
         type: MESSAGE_TYPE.OBJECTIVE,
         avatar: assignAvatar(header, name),
-        ...parseContent(message),
+        ...parseMessage(message),
       };
     }
 
@@ -77,14 +78,14 @@ const parseBody = (text: string, header: Header = {}): Content[] => {
       name: namePair,
       type: assignType(header, namePair) ?? MESSAGE_TYPE.OBJECTIVE,
       avatar: assignAvatar(header, namePair),
-      ...parseContent(message),
+      ...parseMessage(message),
     };
   })
 
   return parsedLines;
 };
 
-const parseContent = (message: string) => {
+const parseMessage = (message: string) => {
   if (message.startsWith("[") && message.endsWith("]")) {
     const media = eliminateLastLetter(eliminateFirstLetter(message));
     return { media };

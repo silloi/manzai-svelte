@@ -1,40 +1,103 @@
-# create-svelte
+# manzai
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+A markup language for narratives
 
-## Creating a project
+## Basic syntax
 
-If you're seeing this, you've probably already done this step. Congrats!
+### Narrative
 
-```bash
-# create a new project in the current directory
-npm init svelte@next
+To create a narrative, add a name in front of a sentence, split with a colon and a space `: `.
 
-# create a new project in my-app
-npm init svelte@next my-app
+```manzai
+Socrates: All men are mortal
 ```
 
-> Note: the `@next` is temporary
+You can add a slash `/` in front of the name, representing that the narrator is subjective.
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+```manzai
+/Plato: Socrates is a man
 ```
 
-## Building
+You can add a back slash `\` in front of the name, representing that the narrator is objective.
 
-To create a production version of your app:
-
-```bash
-npm run build
+```manzai
+\Socrates: Therefore, Socrates is mortal
 ```
 
-You can preview the production build with `npm run preview`.
+Without a name, the sentence represents that it is directive.
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+```manzai
+Socrates died by drinking poison hemlock.
+```
+
+### Media
+
+You can represent a media by wrapping link text in brackets `[ ]`,
+
+```manzai
+[https://picsum.photos/200]
+```
+
+You can represent a media in a narrative.
+
+```manzai
+Plato: [https://picsum.photos/200]
+```
+
+## Header
+
+You can add a YAML front matter block, which must be the first thing in the file and must take the form of valid YAML set between triple-dashed lines.
+
+```manzai
+---
+title: Syllogismus
+description: An example featuring Socrates and Plato
+---
+```
+
+## Narrator
+
+In a header, you can assign avatars and other properties in `narrators` collection with each name as a key.
+
+```manzai
+---
+narrators:
+  - name: Socrates
+    type: 2
+    avatar: [https://picsum.photos/200]
+---
+```
+
+Type number represents whether the narrator is subjective, objective or descriptive.
+
+- 0: descriptive.
+- 1: subjective
+- 2: objective
+
+If you represent a type explicitly in a line with `/` or `\`, types assigned to narrators in a header are overwritten.
+
+## Parsed result
+
+A parsed result is consisted of `header` and `contents`.
+
+`contents` is a collection of `content`.
+
+### header
+
+A `header` contains properties which is declared in a YAML front matter block.
+
+### contents
+
+Each content in `contents` has properties as below:
+
+| property | type     |
+| -------- | -------- |
+| name     |  string  |
+| type     |  number  |
+| avatar   |  string  |
+| message  |  string  |
+| media    |  string  |
+
+## Licence
+
+This project is licensed under the terms of the [MIT license](https://opensource.org/licenses/MIT).
