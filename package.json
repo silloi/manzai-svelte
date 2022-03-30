@@ -1,5 +1,5 @@
 {
-  "name": "manzai-svelte",
+  "name": "svelte-manzai",
   "version": "0.0.1",
   "scripts": {
     "dev": "svelte-kit dev",
